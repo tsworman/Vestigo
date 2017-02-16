@@ -1,0 +1,22 @@
+    <script type="text/javascript">
+      $(function() {
+        $("#linkDel").click(function(e) { e.preventDefault(); alert("Ha!");});
+        $("#id_filter").change(function() {
+          getList($("#id_filter").val());
+        });
+      })
+
+      $(document).ready(function() {
+        getList("all");
+        getTypesFilter();
+      });
+      </script>
+<form>
+  Filter by: 
+  <select id="id_filter">
+    <div id="id_filter"></div>
+  </select>
+</form>
+<br>
+Your items:
+<div id="id_div"></div>

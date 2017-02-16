@@ -1,0 +1,29 @@
+    <script type="text/javascript">
+      $(function() {
+      $("#linkAddMusic").click(function(e) { e.preventDefault(); switchContent("appadd", "music");}); 
+      $("#linkAddMovie").click(function(e) { e.preventDefault(); switchContent("appadd", "movie");}); 
+      $("#linkAddToy").click(function(e) { e.preventDefault(); switchContent("appadd", "toy");}); 
+      $("#linkAddBook").click(function(e) { e.preventDefault(); switchContent("appadd", "book");}); 
+      $("#linkAddBoardgame").click(function(e) { e.preventDefault(); switchContent("appadd", "boardgame");}); 
+      $("#linkAddDigitalgame").click(function(e) { e.preventDefault(); switchContent("appadd", "digitalgame");}); 
+      $("#linkAddTool").click(function(e) { e.preventDefault(); switchContent("appadd", "tool");});    
+      })
+      </script>
+Pick the type of item to add:<p>
+<a id="linkAddMusic" href="?url=appadd&function=music">Music</a><br>
+<a id="linkAddMovie" href="?url=appadd&function=movie">Movie</a><br>
+<a id="linkAddToy" href="?url=appadd&function=toy">Toy</a><br>
+<a id="linkAddBook" href="?url=appadd&function=book">Book</a><br>
+<a id="linkAddBoardgame" href="?url=appadd&function=boardgame">Boardgame</a><br>
+<a id="linkAddDigitalgame" href="?url=appadd&function=digitalgame">Digital Game</a><br>
+<a id="linkAddTool" href="?url=appadd&function=tool">Tool</a>
+<p>
+Or upload a CSV (of all like type items! <a href="?url=csvformat">Format</a>)
+<form method="POST" enctype="multipart/form-data" size="500" action="/api/save/csv">
+<select name="filetype">
+<option value="music">Music</option>
+</select>
+File:
+<input type="file" name="file"/>
+<input type="submit" value="Upload"/><
+</form>

@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">       
+  <head>
+    <script type="text/javascript" src="/scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/fancybox/jquery.fancybox.js?v=2.0.6"></script>
+    <script type="text/javascript">
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+          vars[key] = value;
+        });
+        return vars;
+      };
+
+      function updateStatus(result) {
+        $('#status').append(result);
+      }
+
+      function parseListXML(xml) {
+        $('#id_div').text("");
+        $(xml).find("item").each(function() {   
+          if($(this).find("type").text() === "music") {
+             $('#id_div').append($(this).find("type").text() + ": " + 
+            $(this).find("year_release").text() + " " + $(this).find("artist").text() + "-" + $(this).find("title").text() + " <a href=/app/edit?item_id=" + 
+		  $(this).find("id").text() + ">Edit</a> | " +
+                  " <a id= \"linkDel2\" href=/api/delete?item_id=" + 
+                  $(this).find("id").text() + ">Delete</a><br />");
+           } else {
+               $('#id_div').append($(this).find("type").text() + ": " + 
+              $(this).find("title").text() + " <a href=/app/edit?item_id=" + 
+		  $(this).find("id").text() + ">Edit</a> | " +
+                  " <a id= \"linkDel2\" href=/api/delete?item_id=" + 
+                  $(this).find("id").text() + ">Delete</a><br />");
+           };
+        });
+      };
+
+      function getList(type) {
+      if (type === 'all') {
+        api = '';
+      } else {
+        api = '/' + type;
+      }
+      $.ajax({
+          type: "GET",
+          url: "/api/list" + api,
+          datatype: "xml",
+          success: parseListXML
+         });
+      }
+
+      function parseTypesFilterXML(xml) {
+       $('#id_filter').append("<option value=all>All</option>");
+        $(xml).find("item_type").each(function() {
+          $('#id_filter').append(
+          "<option>" + $(this).find("title").text() + "</option>");
+        });
+      };
+
+      function getTypesFilter() {
+      $.ajax({
+          type: "GET",
+          url: "/api/get/_types_",
+          datatype: "xml",
+          success: parseTypesFilterXML
+         });
+      }
+
+      function parseMusicXML(xml) {
+        $(xml).find("item").each(function() {
+        $('#id_div').append(
+        $(this).find("title").text() + " <a href=/app/edit?item_id=" + 
+		$(this).find("id").text() + ">Edit</a> | " +
+                " <a href=/app/delete?item_id=" + 
+                $(this).find("id").text() + ">Delete</a><br />");
+        });
+      };
+
+      function switchContent($url, $function) {
+        if ($url == "main") {
+          $page = "/pages/main.html";
+        } else if ($url == "faq") {
+          $page = "/pages/faq.html";
+        } else if ($url == "about") {
+          $page = "/pages/about.html";
+        } else if ($url == "support") {
+          $page = "/pages/support.html";
+        } else if ($url == "cost") {
+          $page = "/pages/cost.html";
+        } else if ($url == "api") {
+          $page = "/pages/api.html";
+        } else if ($url == "applist") {
+          $page = "/pages/list.html";
+        } else if ($url == "csvformat") {
+          $page = "/pages/csv.html";
+        } else if ($url == "appadd") {
+          if ($function !== undefined) {
+            $page = "/pages/fields" + $function + ".html";
+          } else {
+            $page = "/pages/addmenu.html";
+          }
+        } else {
+          $page = "/pages/main.html";
+        }
+        $('#content').load($page);      
+      };
+
+      $(function() {
+      $("#linkHome").click(function(e) { e.preventDefault(); switchContent("main");});
+      $("#linkFAQ").click(function(e) { e.preventDefault(); switchContent("faq");});
+      $("#linkAPI").click(function(e) { e.preventDefault(); switchContent("api");});
+      $("#linkCost").click(function(e) { e.preventDefault(); switchContent("cost");});
+      $("#linkAbout").click(function(e) { e.preventDefault(); switchContent("about");});
+      $("#linkSupport").click(function(e) { e.preventDefault(); switchContent("support");});
+      $("#linkList").click(function(e) { e.preventDefault(); switchContent("applist");});
+      $("#linkAdd").click(function(e) { e.preventDefault(); switchContent("appadd");});
+      $("#linkMobile").click(function(e) { e.preventDefault(); switchContent("mobile");});
+      })
+
+      $(document).ready(function() {
+        $url = getUrlVars()["url"];
+        switchContent($url);
+      });
+
+    </script>
+    <title>VestigoApp - Your items; In the Cloud</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/pages/style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+	<div class="tr"><div class="br"><div class="bl">
+	      <h1><a href="http://vestigoapp.appspot.com"><img src="/images/logo.gif" width="203" height="49" alt="Vestigo App" /></a></h1>
+              <ul id="nav-top"
+		<li><a id="linkHome" href="?url=home">Home</a> &nbsp;&nbsp;|&nbsp;&nbsp;</li>
+	        <li><a id="linkFAQ" href="?url=faq">FAQ</a> &nbsp;&nbsp;|&nbsp;&nbsp;</li>
+		<li><a id="linkAPI" href="?url=api">API</a> &nbsp;&nbsp;|&nbsp;&nbsp;</li>
+		<li><a id="linkCost" href="?url=cost">Cost</a> &nbsp;&nbsp;|&nbsp;&nbsp;</li>
+		<li><a id="linkAbout" href="?url=about">About</a> &nbsp;&nbsp;|&nbsp;&nbsp;</li>
+		<li><a id="linkSupport" href="?url=support">Support</a></li>
+              </ul><!-- end top-nav -->
+              <ul id="nav-left">
+		<li><a id="linkList" href="?url=applist"><img src="/images/menu_1.gif" width="96" height="19" alt="My Stuff" /></a></li>
+		<li><a id="linkAdd" href="?url=appadd"><img src="/images/menu_2.gif" width="96" height="18" alt="Add Item" /></a></li>
+		<li><a id="linkMobile" href="?url=mobile"><img src="/images/menu_3.gif" width="96" height="19" alt="Vestigo Mobile" /></a></li>
+              </ul>
+	</div></div></div><!-- end .corners -->
+      </div><!-- end header -->
+      <div id="body"><div id="cap"></div>
+	<div id='content'></div>
+	<div id="footer"><div><div>
+              FOLS Software | <a href="http://www.freewebsitetemplates.com">Design</a>
+	</div></div></div><!-- end footer -->
+      </div><!-- end body -->
+    </div><!-- end wrapper -->
+  </body>
+</html>
+
+ 

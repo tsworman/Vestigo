@@ -1,0 +1,104 @@
+<p>
+  <h1>API</h1>
+  Want to use Vestigo data inside your own application? The API below documents how to store and retrieve information from Vestigo. If you have questions or have issues with the API, contact support@novaslp.net<br>
+</p>
+<p>
+  <h1>Planned Additions</h1>
+  The following new API features are planned in addition to new item types.<br>
+  Storing photos<br>
+  Changing type of an item<br>
+  Defining custom views/reports on items and types of items<br>
+  Deleting or de-activating an item<br>
+  Creating lists of items/custome categories<br>
+</p>
+<p>
+  <h2>Item types</h2>
+  Currently vestigo supports the following item types:
+  <b>music</b> - CD, Records, Tapes<br>
+  <b>movie</b>- DVD, Blu-Ray, HD-DVD, VCD, VHS<br>
+  <b>toy</b> - Matchbox, Building sets, Dolls<br>
+  <b>book</b> - Novels, text books<br>
+  <b>boardgame</b> - Board games<br>
+  <b>digitalgame</b> - PC Game, Videogames<br>
+  <b>tool</b> - Powertools, hand tools<br>
+</p>
+<p>
+  <h2>Item Attributes</h2>
+  All items stored in Vestigo can have the following attributes stored for them.<br>
+  <b>type</b> - Set by the save attribute<br>
+  <b>title</b> - The title of the item<br>
+  <b>text</b> - A descriptive text about the item.<br>
+  <b>photo</b>* - A list of photos of the item<br>
+  <b>model_number</b> - The model number of the item<br>
+  <b>url</b> - A link to a related web page<br>
+  <b>qty</b> - Quantity of the item<br>
+  <b>date_purchase</b> - The date the item was purchased<br>
+  <b>date_create</b>* - Set automatically when the item is first saved<br>
+  <b>date_update</b>* - Set automatically whne the item is updated<br>
+* - Not updatable via the API.
+</p>
+<p>
+  <h3>Item Music Attributes</h3>
+  Attributes specifically related to a music item.<br>
+  <b>media</b> - The type of media the music is stored on<br>
+  <b>artist</b> - The musician or group that performed the music<br>
+</p>
+<p>
+  <h3>Item Movie Attributes</h3>
+  Attributes specifically related to a movie item.<br>
+  <b>media</b> - The type of media the music is stored on<br>
+  <b>format</b> - Widescreen, Full Frame, HD resolution<br>
+  <b>language</b> - Native language of movie<br>
+  <b>producer</b> - Producer of movie<br>
+</p>
+<p>
+  <h3>Item Toy Attributes</h3>
+  Attributes specifically related to a toy item.<br>
+  <b>pieces</b> - How many pieces the toy has<br>
+</p>
+<p>
+  <h3>Item Book Attributes</h3>
+  Attributes specifically related to a book item.<br>
+  <b>author</b> - The author of the book<br>
+  <b>publisher</b> - The publisher of the book<br>
+</p>
+<p>
+  <h3>Item Boardgame Attributes</h3>
+  Attributes specifically related to a boardgame.<br>
+  <b>year_release</b> - The release year of the board game<br>
+  <b>edition</b> - Store information about a specific edition of a game<br>
+</p>
+<p>
+  <h3>Item Digital Game Attributes</h3>
+  Attributes specifically related to a digital game.<br>
+  <b>media</b> - The media (CD, GDROM, Cartridge) that a game is stored on.<br>
+  <b>digital_system</b> - The system the item is designed for<br>
+</p>
+<p>
+  <h3>Item Tool Attributes</h3>
+  Attributes specifically related to a tool.<br>
+  <b>manufacturer</b> - The manufacturer of an item.<br>
+  <b>year_warranty</b> - The length of warranty on the tool<br>
+</p>
+<p>
+  <h2>URL</h2>
+  The api is available at http://vestigoapp.appspot.com/api/. At present call rates to the API are not limited. Under high load, call rates to the API from 3rd party applications are limited to maintain the website. URLs can be formed by appending the function in lower case to the base url.
+  <h4>list</h4>
+  The list function will list all items a user has in their collection with all base attributes.<br>
+  XML Structure: [items]->[item]->attributes<br>
+  <h4>list/*</h4>
+  Ex: list/music<br>
+  List a specific type of item with the attributes that pertain to it.<br>
+  XML Structure: [items]->[item]->attributes<br>
+  <h4>save/*</h4>
+  Ex: save/tool<br>
+  Post attributes related to this item to save the item to vestigo.<br>
+  Optional Parameters: item_id - Post a numberic item_id to update an existing item.
+  <h4>get/_types_</h4>
+  Get a list of all possible attribute types that Vestigo stores predefined values for.<br>
+  XML Structure: [item_types]->[item_type]->[title]<br>
+  <h4>get/*</h4>
+  Get a list of possible values for each attribute type. Users are not limited to items from these list. The service will accept any value for each option but selecting one of these ensures data stays sorted for each user.<br>
+  XML Structure: [nodes]->[node]->attributes<br>
+  Optional Parameters: node_like - return 10 similar possible values<br>
+</p>
